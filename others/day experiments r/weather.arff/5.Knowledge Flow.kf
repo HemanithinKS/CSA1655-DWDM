@@ -1,0 +1,76 @@
+{
+	"flow_name" : "5.Knowledge Flow",
+	"steps" : [
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.ArffLoader",
+					"filePath" : "C:/Users/saite/OneDrive/Desktop/weka pro/5. Knowledge Flow Weather Table.arff",
+					"useRelativePath" : false
+				},
+				"name" : "weather"
+			},
+			"connections" : {
+				"dataSet" : [
+					"AttributeSelection"
+				]
+			},
+			"coordinates" : "92,126"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Filter",
+			"properties" : {
+				"filter" : {
+					"type" : "optionHandler",
+					"class" : "weka.filters.unsupervised.attribute.Normalize",
+					"options" : "-S 1.0 -T 0.0"
+				},
+				"name" : "Normalize"
+			},
+			"connections" : {
+				"dataSet" : [
+					"weather-attribute selection"
+				]
+			},
+			"coordinates" : "456,130"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Filter",
+			"properties" : {
+				"filter" : {
+					"type" : "optionHandler",
+					"class" : "weka.filters.supervised.attribute.AttributeSelection",
+					"options" : "-E \"weka.attributeSelection.CfsSubsetEval -P 1 -E 1\" -S \"weka.attributeSelection.BestFirst -D 1 -N 5\""
+				},
+				"name" : "AttributeSelection"
+			},
+			"connections" : {
+				"dataSet" : [
+					"Normalize"
+				]
+			},
+			"coordinates" : "282,134"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Saver",
+			"properties" : {
+				"name" : "weather-attribute selection",
+				"relationNameForFilename" : true,
+				"saver" : {
+					"type" : "saver",
+					"class" : "weka.core.converters.ArffSaver",
+					"filePath" : "",
+					"dir" : "C:/Users/saite/OneDrive/Desktop/weka pro/weather.arff",
+					"prefix" : "",
+					"useRelativePath" : false,
+					"options" : "-decimal 6"
+				}
+			},
+			"connections" : {
+			},
+			"coordinates" : "655,138"
+		}
+	]
+}
